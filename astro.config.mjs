@@ -22,4 +22,8 @@ export default defineConfig({
     integrations: [mdx(), sitemap(), react(), tailwind()],
     site: 'https://Jupoulet.github.io',
     base: '/astro-blog',
+    output: 'static',
+    build: {
+        format: 'directory',
+    }
 });
