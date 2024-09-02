@@ -13,13 +13,7 @@ import tailwind from '@astrojs/tailwind';
 
 // https://astro.build/config
 export default defineConfig({
-    vite: {
-        build: {
-            charset: 'utf-8',
-        }
-    },
-    site: 'https://example.com',
-    integrations: [mdx(), sitemap(), react(), tailwind()],
+    integrations: [mdx(), react(), tailwind()],
     site: 'https://Jupoulet.github.io',
     base: '/astro-blog',
     output: 'static',
