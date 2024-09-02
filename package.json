@@ -10,11 +10,23 @@
     "astro": "astro"
   },
   "dependencies": {
+    "@astrojs/check": "^0.9.3",
     "@astrojs/mdx": "^3.1.5",
+    "@astrojs/react": "^3.6.2",
     "@astrojs/rss": "^4.0.7",
     "@astrojs/sitemap": "^3.1.6",
+    "@astrojs/tailwind": "^5.1.0",
+    "@notionhq/client": "^2.2.15",
+    "@types/react": "^18.3.5",
+    "@types/react-dom": "^18.3.0",
     "astro": "^4.15.1",
-    "@astrojs/check": "^0.9.3",
+    "dotenv": "^16.4.5",
+    "html-entities": "^2.5.2",
+    "marked": "^14.1.0",
+    "notion-to-md": "^3.1.1",
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1",
+    "tailwindcss": "^3.4.10",
     "typescript": "^5.5.4"
   }
 }

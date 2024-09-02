@@ -1,0 +1,109 @@
+---
+import { fetchArticles, fetchPageContent } from '../services/notion';
+import { marked } from 'marked';
+import { decode } from 'html-entities';
+import Article from '../layouts/Article.astro';
+
+
+interface Article {
+  id: string;
+  title: string;
+  slug: string;
+  created: string;
+  status: string;
+  url: string;
+}
+
+interface Props {
+  params: {
+    slug: string[];
+  };
+  title: string;
+  created: string;
+  status: 'In progress' | 'Published' | 'Not started';
+  id: string;
+}
+
+export async function getStaticPaths() {
+  const articles = await fetchArticles();
+  return articles
+  .filter((article: Article) => {
+    if (process.env.NODE_ENV === 'production') {
+      return article.status === 'Published';
+    }
+    return true;
+  })
+  .map((article: Article) => ({
+    params: { slug: article.slug },
+    props: article,
+  }));
+}
+
+const { title, created, id } = Astro.props;
+const content = await fetchPageContent(id);
+
+// Configure marked to not escape certain characters
+marked.setOptions({
+  gfm: true,
+  breaks: true,
+});
+
+const decodedContent = decode(content);
+const htmlContent = marked(decodedContent);
+
+---
+<Article title={title}>
+    <article class="max-w-3xl mx-auto p-8 bg-gray-900 shadow-lg rounded-lg">
+      <h1 class="text-4xl font-bold mb-4 text-blue-300">{title}</h1>
+      <p class="text-gray-400 mb-6">{new Date(created).toLocaleDateString()}</p>
+      <div class="article-content prose prose-lg" set:html={htmlContent}></div>
+    </article>
+</Article>
+
+<style is:global>
+  .article-content {
+    @apply text-gray-300 leading-relaxed;
+  }
+  .article-content p {
+    @apply mb-6;
+  }
+  .article-content h1 {
+    @apply text-4xl font-bold mt-10 mb-6 text-blue-100;
+  }
+  .article-content h2 {
+    @apply text-3xl font-semibold mt-8 mb-4 text-blue-200;
+  }
+  .article-content h3 {
+    @apply text-2xl font-semibold mt-6 mb-3 text-blue-300;
+  }
+  .article-content h4 {
+    @apply text-xl font-semibold mt-4 mb-2 text-blue-400;
+  }
+  .article-content ul, .article-content ol {
+    @apply mb-6 pl-6 list-disc;
+  }
+  .article-content ol {
+    @apply list-decimal;
+  }
+  .article-content li {
+    @apply mb-2;
+  }
+  .article-content a {
+    @apply text-blue-600 hover:text-blue-800 underline;
+  }
+  .article-content blockquote {
+    @apply border-l-2 border-blue-300 pl-4 my-4 text-slate-600 italic text-base;
+  }
+  .article-content code {
+    @apply bg-slate-100 rounded px-1 py-0.5 font-mono text-sm;
+  }
+  .article-content pre {
+    @apply bg-slate-100 rounded p-4 overflow-x-auto mb-6;
+  }
+  .article-content img {
+    @apply max-w-full h-auto rounded-lg shadow-md my-6;
+  }
+  .article-content hr {
+    @apply my-8 border-t border-slate-300;
+  }
+</style>
