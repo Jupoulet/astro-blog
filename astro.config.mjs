@@ -12,10 +12,4 @@ import tailwind from '@astrojs/tailwind';
 // https://astro.build/config
 export default defineConfig({
     integrations: [mdx(), react(), tailwind()],
-    site: 'https://Jupoulet.github.io',
-    base: '/astro-blog',
-    output: 'static',
-    build: {
-        format: 'directory',
-    }
 });
