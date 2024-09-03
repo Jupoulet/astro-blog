@@ -5,7 +5,6 @@ const notion = new Client({ auth: process.env.NOTION_API_KEY });
 const n2m = new NotionToMarkdown({ notionClient: notion });
 
 export const fetchArticles = async () => {
-  console.log('ENV', process.env);
   const databaseId = process.env.NOTION_DATABASE_ID;
   const response = await notion.databases.query({
     database_id: databaseId!,
