@@ -27,12 +27,6 @@ interface Props {
 export async function getStaticPaths() {
   const articles = await fetchArticles();
   return articles
-  .filter((article: Article) => {
-    if (process.env.NODE_ENV === 'production') {
-      return article.status === 'Published';
-    }
-    return true;
-  })
   .map((article: Article) => ({
     params: { slug: article.slug },
     props: article,
