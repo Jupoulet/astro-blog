@@ -1,11 +1,11 @@
 import { Client } from '@notionhq/client';
 import { NotionToMarkdown } from 'notion-to-md';
 
-const notion = new Client({ auth: secrets.NOTION_API_KEY });
+const notion = new Client({ auth: process.env.NOTION_API_KEY });
 const n2m = new NotionToMarkdown({ notionClient: notion });
 
 export const fetchArticles = async () => {
-  const databaseId = secrets.NOTION_DATABASE_ID;
+  const databaseId = process.env.NOTION_DATABASE_ID;
   const response = await notion.databases.query({
     database_id: databaseId!,
   });
